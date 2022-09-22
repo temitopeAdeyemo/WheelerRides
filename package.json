@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "license": "MIT",
-    "scripts": {
+  "scripts": {
     "dev": "nodemon src/app.js",
     "start": "node src/app.js"
   },

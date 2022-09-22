@@ -20,7 +20,7 @@ const paymentRouter = require("./routes/payment.route");
 const session = require("express-session");
 const flash = require("connect-flash");
 const pool = require("./database/sql_db");
-// console.log(express);
+
 // calling express.json to post and get datas in json formats.
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
