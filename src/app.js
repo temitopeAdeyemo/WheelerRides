@@ -66,7 +66,6 @@ app.get("/", async (req, res) => {
       });
     }
 
-    // let nums = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
     let shuffledCars = cars.rows.sort(() => Math.random() - 0.5);
     shuffledCars.length = 12;    
     const posts = await Post.find();
