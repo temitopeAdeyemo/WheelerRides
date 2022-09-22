@@ -14,7 +14,10 @@ const pool = new Pool({
   port: process.env.pgport,
   password: process.env.pgpassword,
   database: process.env.pgdatabase,
-  ssl: true
+  ssl: {
+    require: "true",
+    rejectUnauthorized: "false",
+  },
 });
 
 pool.query("SELECT NOW()", (err, res) => {
