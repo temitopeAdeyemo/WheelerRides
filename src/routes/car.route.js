@@ -31,7 +31,7 @@ router.get("/single-car", car.fetchCar, (req, res, next) => {
     startIndex == req.session.itemToShow.length - 1 ||
     startIndex == req.session.itemToShow.length - 2
   ) {
-    startIndex = req.session.itemToShow.length - 2;
+    startIndex = req.session.itemToShow.length - 3;
   }
   let endIndex = 3;
   res.render("car-single", {
