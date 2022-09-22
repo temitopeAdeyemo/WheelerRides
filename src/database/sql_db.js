@@ -25,7 +25,6 @@ pool.query("SELECT NOW()", (err, res) => {
   } else {
     console.log(err.message);
   }
-
 });
 
 module.exports = pool;
