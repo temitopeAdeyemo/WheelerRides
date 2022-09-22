@@ -6,7 +6,7 @@ const {
   pdfReciept,
 } = require("../controllers/rental.controller");
 router.use(express.static("src/public"));
-const isLoggedIn = (req, res, next) => {
+
 const isLoggedIn = (req, res, next) => {
   if (!req.user && !req.session ) {
     console.log("req.user, req.session", req.user, req.session);
