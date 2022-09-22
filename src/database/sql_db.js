@@ -15,8 +15,7 @@ const pool = new Pool({
   password: process.env.pgpassword,
   database: process.env.pgdatabase,
   ssl: {
-    require: "true",
-    rejectUnauthorized: "false",
+    rejectUnauthorized: false,
   },
 });
 
