@@ -8,7 +8,7 @@ const {
 router.use(express.static("src/public"));
 
 const isLoggedIn = (req, res, next) => {
-  if (!req.user && !req.session ) {
+  if (!req.user && !req.session.user ) {
     console.log("req.user, req.session", req.user, req.session);
     return res.redirect("/login");
   }
