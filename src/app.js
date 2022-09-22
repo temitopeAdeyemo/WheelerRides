@@ -59,9 +59,10 @@ app.get("/", async (req, res) => {
     );
     // Setting the page not found condition
     if (cars.rows[0] == null || !cars.rows[0] || cars.rows[0] == []) {
-      return res.render("/", {
+      return res.render("index", {
         items: [],
         user: req.session.user,
+        posts: [],
       });
     }
 
