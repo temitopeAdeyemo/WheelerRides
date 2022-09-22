@@ -23,7 +23,7 @@ pool.query("SELECT NOW()", (err, res) => {
   } else {
     console.log(err.message);
   }
-  //   console.log("connected PGSQL");
+
 });
 
 module.exports = pool;
