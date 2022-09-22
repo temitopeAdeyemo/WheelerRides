@@ -7,11 +7,7 @@
 // });
 
 const { Pool } = require("pg");
-// const dotenv = require("dotenv");
 
-// dotenv.config();
-
-// ==> Conexão com a Base de Dados:
 const pool = new Pool({
   host: process.env.pghost,
   user: process.env.pguser,
