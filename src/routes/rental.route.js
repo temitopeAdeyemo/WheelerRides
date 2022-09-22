@@ -7,10 +7,12 @@ const {
 } = require("../controllers/rental.controller");
 router.use(express.static("src/public"));
 const isLoggedIn = (req, res, next) => {
-  if (!req.session.token || req.user._id) {
-    res.redirect("/login");
+const isLoggedIn = (req, res, next) => {
+  if (!req.user && !req.session ) {
+    console.log("req.user, req.session", req.user, req.session);
+    return res.redirect("/login");
   }
-  next();
+  return next();
 };
 router.use(isLoggedIn);
 
