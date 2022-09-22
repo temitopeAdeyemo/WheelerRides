@@ -10,6 +10,7 @@ const isLoggedIn = (req, res, next) => {
   if (!req.session.token || req.user._id) {
     res.redirect("/login");
   }
+  next();
 };
 router.use(isLoggedIn);
 
