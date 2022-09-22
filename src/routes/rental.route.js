@@ -6,6 +6,12 @@ const {
   pdfReciept,
 } = require("../controllers/rental.controller");
 router.use(express.static("src/public"));
+const isLoggedIn = (req, res, next) => {
+  if (!req.session.token || req.user._id) {
+    res.redirect("/login");
+  }
+};
+router.use(isLoggedIn);
 
 router.get(
   "/rental",
