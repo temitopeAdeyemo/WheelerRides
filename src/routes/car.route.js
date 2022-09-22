@@ -26,9 +26,14 @@ router.get("/single-car", car.fetchCar, (req, res, next) => {
     req.session.itemToShow[
       Math.floor(Math.random() * req.session.itemToShow.length)
     ];
-  // let startIndex = req.session.itemToShow.indexOf(startElement);
-  let startIndex = 0;
-  let endIndex = 2;
+  let startIndex = req.session.itemToShow.indexOf(startElement);
+  if (
+    startIndex == req.session.itemToShow.length - 1 ||
+    startIndex == req.session.itemToShow.length - 2
+  ) {
+    startIndex = req.session.itemToShow.length - 2;
+  }
+  let endIndex = 3;
   res.render("car-single", {
     user: req.session.user,
     item: req.session.item,
