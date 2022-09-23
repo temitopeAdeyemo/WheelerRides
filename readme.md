@@ -1,5 +1,3 @@
-[documentation](https://documenter.getpostman.com/view/19330071/UVz1MrYD)
+[heroku_link](https://wheeler-ride.herokuapp.com/)
 
-[heroku_link](https://disak.herokuapp.com/)
-
-# A DISAK APPLICATION FOR CAR RENTALS AND SERVICES.
+# WheelerRides is a car rental application built with Node js, Express, Javascript, HTML, Bootstrap Css and Jquery.
