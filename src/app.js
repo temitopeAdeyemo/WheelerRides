@@ -26,12 +26,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(session({ secret: "secret", resave: false, saveUninitialized: false }));
 app.set("view engine", "ejs");
-// app.use(
-//   cookieSession({
-//     maxAge: 24 * 60 * 60 * 1000,
-//     keys: [keys.session.cookieKey],
-//   })
-// );
 app.use(flash());
 app.use(express.static("src/public"));
 app.use(express.static("src/uploads/"));
@@ -52,46 +46,6 @@ app.use("/api/v1", paymentRouter);
 app.use("/auth", socialRouter);
 
 //endpoint for the base url..
-app.get("/", async (req, res) => {
-  try {
-    const cars = await pool.query(`SELECT * FROM Car`);
-    // Setting the page not found condition
-    if (cars.rows[0] == null || !cars.rows[0] || cars.rows[0] == []) {
-      return res.render("index", {
-        items: [],
-        user: req.session.user,
-        posts: [],
-      });
-    }
-
-    let shuffledCars = cars.rows.sort(() => Math.random() - 0.5);
-    if (shuffledCars.length > 12) {
-      shuffledCars.length = 12;
-    }
-    const posts = await Post.find();
-    req.session.all_posts = posts;
-    let shuffledPosts = posts.sort(() => Math.random() - 0.5);
-    if (shuffledPosts.length > 3) {
-      shuffledPosts.length = 3;
-    }
-    req.session.postsToShow = shuffledPosts;
-    req.session.itemToShow = shuffledCars;
-    if (req.user) {
-      req.session.user = req.user;
-    }
-    res.render("index", {
-      user: req.session.user,
-      items: req.session.itemToShow,
-      posts: req.session.postsToShow,
-    });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      message: `${error.message}, Please try again later.`,
-    });
-  }
-});
-
 app.get("/about", (req, res) => {
   res.render("about", { user: req.session.user });
 });
@@ -109,13 +63,33 @@ app.get("/payment", (req, res) => {
   });
 });
 
-// app.get("/pricing", (req, res) => {
-//   res.render("pricing", { user: req.session.user });
-// });
+app.get("/car", (req, res) => {
+  res.render("car-portal", { user: req.session.user });
+});
+
+app.get("/post-car", (req, res) => {
+  res.render("add-car", { user: req.session.user });
+});
+
+app.get("/view-all", (req, res) => {
+  res.render("all-cars", { user: req.session.user });
+});
+
+app.get("/blog", (req, res) => {
+  res.render("blog-portal", { user: req.session.user });
+});
+
+app.get("/add-post", (req, res) => {
+  res.render("add-blog", { user: req.session.user });
+});
+
+app.get("/contact", (req, res) => {
+  res.render("contact", { user: req.session.user });
+});
 
 app.get("/pricing", async (req, res) => {
   try {
-    const cars = await pool.query(`SELECT * FROM Car`);
+    const cars = await pool.query("SELECT * FROM Car");
     // Setting the page not found condition
     if (cars.rows[0] == null || !cars.rows[0] || cars.rows[0] == []) {
       return res.render("all-cars", {
@@ -125,11 +99,11 @@ app.get("/pricing", async (req, res) => {
     }
 
     req.session.allCars = cars.rows;
+
     res.render("pricing", {
       user: req.session.user,
       items: req.session.allCars,
     });
-    // req.items.itemCount = dataCount;
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -138,30 +112,51 @@ app.get("/pricing", async (req, res) => {
   }
 });
 
-app.get("/car", (req, res) => {
-  res.render("car-portal", { user: req.session.user });
-});
-app.get("/post-car", (req, res) => {
-  res.render("add-car", { user: req.session.user });
-});
-app.get("/view-all", (req, res) => {
-  res.render("all-cars", { user: req.session.user });
-});
-app.get("/blog", (req, res) => {
-  res.render("blog-portal", { user: req.session.user });
-});
-// app.get("/all-posts",
-//  (req, res) => {
+app.get("/", async (req, res) => {
+  try {
+    const cars = await pool.query(`SELECT * FROM Car`);
 
-//   res.render("blog", { user: req.session.user });
-// }
-// );
-app.get("/add-post", (req, res) => {
-  res.render("add-blog", { user: req.session.user });
+    if (cars.rows[0] == null || !cars.rows[0] || cars.rows[0] == []) {
+      return res.render("index", {
+        items: [],
+        user: req.session.user,
+        posts: [],
+      });
+    }
+
+    let shuffledCars = cars.rows.sort(() => Math.random() - 0.5);
+
+    if (shuffledCars.length > 12) {
+      shuffledCars.length = 12;
+    }
+
+    const posts = await Post.find();
+    req.session.all_posts = posts;
+    let shuffledPosts = posts.sort(() => Math.random() - 0.5);
+
+    if (shuffledPosts.length > 3) {
+      shuffledPosts.length = 3;
+    }
+
+    req.session.postsToShow = shuffledPosts;
+    req.session.itemToShow = shuffledCars;
+
+    if (req.user) {
+      req.session.user = req.user;
+    }
+
+    res.render("index", {
+      user: req.session.user,
+      items: req.session.itemToShow,
+      posts: req.session.postsToShow,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `${error.message}, Please try again later.`,
+    });
+  }
 });
-app.get("/contact", (req, res) => {
-  res.render("contact", { user: req.session.user });
-});
+
 app.listen(PORT, () => {
   console.log(`App is listening to PORT ${PORT}`);
 });
