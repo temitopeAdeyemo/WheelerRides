@@ -7,30 +7,19 @@ const {
 } = require("../controllers/rental.controller");
 router.use(express.static("src/public"));
 
-const isLoggedIn = (req, res, next) => {
-  if (!req.user && !req.session.user ) {
-    console.log("req.user, req.session", req.user, req.session);
-    return res.redirect("/login");
-  }
-  return next();
-};
-router.use(isLoggedIn);
+router.use(authorization.authLogin);
 
 router.get(
   "/rental",
-  // authorization.authorization,
-
   (req, res) => {  
-    // console.log(req.url)
-    // console.log(req.originalUrl)
     res.render("reserve2", {
       user: req.session.user,
       bookingUrl: req.originalUrl,
     });
   }
 );
+
 router.post("/rental", 
-// authorization.authorization,
  rentalDetail);
 router.get("/payment/reciept", pdfReciept);
 

@@ -4,14 +4,13 @@ const car = require("../controllers/car.controller");
 const router = express.Router();
 router.use(express.static("src/public"));
 const upload = require("../utils/multer");
-// creating routes to the endpoints
+
 router.post(
   "/car/post",
-  // authorization.authorization,
-  // authorization.isAdmin,
   upload.array("image", 4),
   car.addCar
 );
+
 router.get("/fetch-cars", car.fetchCars, (req, res, next) => {
   res.render("all-cars", {
     user: req.session.user,
@@ -38,13 +37,11 @@ router.get("/single-car", car.fetchCar, (req, res, next) => {
     user: req.session.user,
     item: req.session.item,
     itemToShow: req.session.itemToShow.splice(startIndex, endIndex),
-    // reroute: `/car?id=${req.item.id}`,
   });
 });
 router.patch(
   "/car",
   authorization.authorization,
-  //  authorization.isAdmin,
   car.updateCarAvailability
 );
 // exporting all routes

@@ -6,13 +6,12 @@ const {
   paymentVerification,
 } = require("../controllers/payment.controller");
 router.use(express.static("src/public"));
+
 router.post(
   "/payment/init",
-  // authorization.authorization,
   payment
 );
 router.get("/payment/verify",
-//  authorization.authorization,
   paymentVerification);
 
 module.exports = router;

@@ -48,10 +48,10 @@ exports.isAdmin = async (req, res, next) => {
 
 exports.authLogin = async (req, res, next) => {
   try {
-    if (!req.session.user) {
-      res.redirect("/login");
+    if (!req.user && !req.session.user) {
+      return res.redirect("/login");
     }
-    next();
+    return next();
   } catch (error) {
     return res.status(500).json({
       message: error.message,
