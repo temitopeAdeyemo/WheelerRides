@@ -67,6 +67,7 @@ const findPost = async (req, res, next) => {
     req.session.post = post;
     console.log("req.session.all_posts", req.session.all_posts);
     let shuffledPosts = req.session.all_posts.sort(() => Math.random() - 0.5);
+    console.log("shuffledPosts", shuffledPosts);
     if (shuffledPosts.length > 5) {
       shuffledPosts.length = 5;
     }
