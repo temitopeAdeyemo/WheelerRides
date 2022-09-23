@@ -1,5 +1,5 @@
 const express = require("express");
-const Post = require("./models/blog_post.model")
+const Post = require("./models/blog_post.model");
 const mongoose = require("mongoose");
 const app = express();
 const dotenv = require("dotenv").config();
@@ -54,9 +54,7 @@ app.use("/auth", socialRouter);
 //endpoint for the base url..
 app.get("/", async (req, res) => {
   try {
-    const cars = await pool.query(
-      `SELECT * FROM Car`
-    );
+    const cars = await pool.query(`SELECT * FROM Car`);
     // Setting the page not found condition
     if (cars.rows[0] == null || !cars.rows[0] || cars.rows[0] == []) {
       return res.render("index", {
@@ -73,10 +71,12 @@ app.get("/", async (req, res) => {
     const posts = await Post.find();
     req.session.all_posts = posts;
     let shuffledPosts = posts.sort(() => Math.random() - 0.5);
-    shuffledPosts.length = 3;
-    req.session.postsToShow = shuffledPosts
+    if (shuffledPosts.length > 3) {
+      shuffledPosts.length = 3;
+    }
+    req.session.postsToShow = shuffledPosts;
     req.session.itemToShow = shuffledCars;
-    if(req.user){
+    if (req.user) {
       req.session.user = req.user;
     }
     res.render("index", {
@@ -90,7 +90,6 @@ app.get("/", async (req, res) => {
       message: `${error.message}, Please try again later.`,
     });
   }
-
 });
 
 app.get("/about", (req, res) => {
@@ -103,17 +102,16 @@ app.get("/login", (req, res) => {
   res.render("login", { user: req.session.user });
 });
 
-
 app.get("/payment", (req, res) => {
-  res.render("payment", { rental_id: req.session.rental_id, user: req.session.user });
+  res.render("payment", {
+    rental_id: req.session.rental_id,
+    user: req.session.user,
+  });
 });
-
-
 
 // app.get("/pricing", (req, res) => {
 //   res.render("pricing", { user: req.session.user });
 // });
-
 
 app.get("/pricing", async (req, res) => {
   try {
