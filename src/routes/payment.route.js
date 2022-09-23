@@ -7,11 +7,8 @@ const {
 } = require("../controllers/payment.controller");
 router.use(express.static("src/public"));
 
-router.post(
-  "/payment/init",
-  payment
-);
-router.get("/payment/verify",
-  paymentVerification);
+router.post("/payment/init", authorization.authLogin, payment);
+
+router.get("/payment/verify", authorization.authLogin, paymentVerification);
 
 module.exports = router;

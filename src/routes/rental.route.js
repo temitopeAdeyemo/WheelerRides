@@ -9,18 +9,14 @@ router.use(express.static("src/public"));
 
 router.use(authorization.authLogin);
 
-router.get(
-  "/rental",
-  (req, res) => {  
-    res.render("reserve2", {
-      user: req.session.user,
-      bookingUrl: req.originalUrl,
-    });
-  }
-);
+router.get("/rental", (req, res) => {
+  res.render("reserve2", {
+    user: req.session.user,
+    bookingUrl: req.originalUrl,
+  });
+});
 
-router.post("/rental", 
- rentalDetail);
+router.post("/rental", rentalDetail);
 router.get("/payment/reciept", pdfReciept);
 
 module.exports = router;

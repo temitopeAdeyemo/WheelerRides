@@ -8,33 +8,30 @@ router.use(express.static("src/public"));
 router.get("/sign-up", (req, res) => {
   res.render("sign-up", { user: req.user });
 });
-router.post("/sign-up", user.userRegistration, (req, res, next) => {
-  // console.log(req.resp);
-  if (req.resp.status == 201) {
-    res.redirect(201, "/");
-  } else {
-    res.render("sign-up", { user: req.resp });
-  }
-});
+router.post("/sign-up", user.userRegistration);
 router.post("/auth/login", user.userLogin);
+
 router.get(
   "/search-user",
-  authorization.authorization,
+  authorization.authLogin,
   authorization.isAdmin,
   user.fetchUser
 );
+
 router.get(
   "/users",
-  authorization.authorization,
+  authorization.authLogin,
   authorization.isAdmin,
   user.allUsers
 );
+
 router.get(
   "/user",
-  authorization.authorization,
+  authorization.authLogin,
   authorization.isAdmin,
   user.findOneUser
 );
+
 router.post("/auth/user/verify", user.verifyEmail);
 router.post("/auth/user/resend-verification-mail", user.resendVerificationMail);
 router.post("/auth/user/password-reset-url", user.forgetPasswordLink);

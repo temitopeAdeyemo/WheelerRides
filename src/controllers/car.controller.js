@@ -92,7 +92,12 @@ exports.fetchCars = async (req, res, next) => {
     // console.log(dataCount)
     req.items = allPaginatedCars.rows;
     req.items.itemCount = dataCount;
-    next();
+    res.render("all-cars", {
+      user: req.session.user,
+      items: req.items,
+      reroute: `/car?id=${req.items.id}`,
+      itemCount: req.items.itemCount,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -114,9 +119,24 @@ exports.fetchCar = async (req, res, next) => {
         user: req.session.user,
       });
     }
-
     req.session.item = allCars.rows[0];
-    next();
+    let startElement =
+      req.session.itemToShow[
+        Math.floor(Math.random() * req.session.itemToShow.length)
+      ];
+    let startIndex = req.session.itemToShow.indexOf(startElement);
+    if (
+      startIndex == req.session.itemToShow.length - 1 ||
+      startIndex == req.session.itemToShow.length - 2
+    ) {
+      startIndex = req.session.itemToShow.length - 3;
+    }
+    let endIndex = 3;
+    res.render("car-single", {
+      user: req.session.user,
+      item: req.session.item,
+      itemToShow: req.session.itemToShow.splice(startIndex, endIndex),
+    });
   } catch (error) {
     // console.log(error);
     return res.status(500).json({
@@ -124,31 +144,31 @@ exports.fetchCar = async (req, res, next) => {
     });
   }
 };
-  //  Setting Car availaability to true
-  exports.updateCarAvailability = async (req, res, next) => {
-    try {
-      const { car_id } = req.headers;
+//  Setting Car availaability to true
+exports.updateCarAvailability = async (req, res, next) => {
+  try {
+    const { car_id } = req.headers;
 
-      const findCar = await pool.query("SELECT * FROM Car WHERE id = $1", [
-        car_id,
-      ]);
-      // Condition making sure unlisted cars dont get modified
-      if (!findCar.rows[0]) {
-        return res.status(400).json({
-          message: "Please input a valid car id to make available.",
-        });
-      }
-      const updateAvailability = await pool.query(
-        "UPDATE Car SET availability = $1 WHERE id = $2",
-        [true, car_id]
-      );
-
-      return res.status(200).json({
-        message: `Car with id ${car_id} is now available for rental.`,
-      });
-    } catch (error) {
-      return res.status(500).json({
-        message: `${error.message}, Please try again later.`,
+    const findCar = await pool.query("SELECT * FROM Car WHERE id = $1", [
+      car_id,
+    ]);
+    // Condition making sure unlisted cars dont get modified
+    if (!findCar.rows[0]) {
+      return res.status(400).json({
+        message: "Please input a valid car id to make available.",
       });
     }
-  };
+    const updateAvailability = await pool.query(
+      "UPDATE Car SET availability = $1 WHERE id = $2",
+      [true, car_id]
+    );
+
+    return res.status(200).json({
+      message: `Car with id ${car_id} is now available for rental.`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: `${error.message}, Please try again later.`,
+    });
+  }
+};
