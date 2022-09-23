@@ -64,12 +64,12 @@ const findPost = async (req, res, next) => {
       });
     }
 
-
     req.session.post = post;
     console.log("req.session.all_posts", req.session.all_posts);
     let shuffledPosts = req.session.all_posts.sort(() => Math.random() - 0.5);
-    shuffledPosts.length = 5;
-
+    if (shuffledPosts.length > 5) {
+      shuffledPosts.length = 5;
+    }
 
     const comments = await Comment.find({ postId: post_id }).populate(
       "commenterId",
@@ -83,9 +83,9 @@ const findPost = async (req, res, next) => {
     // if (!comments) {
     //   return res.status.json({
     //     comment: "No comment yet, Be the first to comment...",
-    //   });   
+    //   });
     // }
-    req.session.comments = comments
+    req.session.comments = comments;
     console.log(comments);
 
     res.render("blog-single", {
