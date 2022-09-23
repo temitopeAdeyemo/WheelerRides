@@ -111,7 +111,7 @@
 
             <div class="pt-5 mt-5">
               <h5 class="mb-5" id = "comment-count"><%=comments.length%> Comments</h5>
-              <ul class="comment-list" id = "coment-list">
+              <ul class="comment-list" id = "comment-list">
 
             <%if(comments.length < 1){%>
               <p id = "no-comment">No Comment yet, Be the first to comment...</p>
@@ -354,9 +354,9 @@
         if(userLoggedIn){
         const newComment = document.getElementById("body");
         const commentCount = document.getElementById("comment-count");
-        const ul = document.getElementById("coment-list");
-        const firstToComment = document.getElementById("no-comment");
-        console.log(firstToComment.textContent);
+        const ul = document.getElementById("comment-list");
+        // const firstToComment = document.getElementById("no-comment");
+        // console.log(firstToComment.textContent);
         const comment = `
                         <li class="comment">
                   <div class="vcard bio">
