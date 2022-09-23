@@ -71,6 +71,7 @@ app.get("/", async (req, res) => {
       shuffledCars.length = 12;
     }
     const posts = await Post.find();
+    req.session.all_posts = posts;
     let shuffledPosts = posts.sort(() => Math.random() - 0.5);
     shuffledPosts.length = 3;
     req.session.postsToShow = shuffledPosts
