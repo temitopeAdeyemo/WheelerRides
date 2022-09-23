@@ -80,7 +80,9 @@
           <%posts.forEach((post)=>{%>
           <div class="col-md-12 text-center d-flex ftco-animate">
           	<div class="blog-entry justify-content-end mb-md-5">
-              <a href="/api/v1/single-post?post_id=<%=post._id%>" class="block-20 img" style="background-image: url(<%=post.image%>);" >
+            <p>
+              <img src=<%=post.image%> alt="blog image" class="img-fluid">
+            </p>
               </a>
               <div class="text px-md-5 pt-4">
               	<div class="meta mb-3">
