@@ -1,6 +1,6 @@
 // const { Sequelize } = require('sequelize');
 
-// // Option 3: Passing parameters separately (other dialects)
+// Option 3: Passing parameters separately (other dialects)
 // module.exports = new Sequelize("myProject", "postgres", "123456789", {
 //   dialect: "postgres",
 //   port: 5050,
