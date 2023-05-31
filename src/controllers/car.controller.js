@@ -144,7 +144,7 @@ exports.fetchCar = async (req, res, next) => {
     });
   }
 };
-//  Setting Car availaability to true
+//  Setting Car availaability to true.
 exports.updateCarAvailability = async (req, res, next) => {
   try {
     const { car_id } = req.headers;
